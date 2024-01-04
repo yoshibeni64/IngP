@@ -1,0 +1,271 @@
+
+/*Estilos generales*/
+body {
+    margin: 0;
+    font-family: Arial;
+  }
+
+
+table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: auto;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    width: auto;
+}
+
+
+.column {
+  float: left;
+  width: 33.33%;
+  margin: auto;
+  height: 250px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  border: 1px solid rgba(250, 0, 0, 0.8);
+}
+
+button {
+  background-color: white;
+}
+
+button:hover {
+background-color: purple;
+color: white;
+}
+
+/*Estilo de pagina principal*/
+#principal img {
+  width: 250px;
+}
+  
+/*Estilo de encabezado*/
+  .header {
+      position: relative;
+      background-color: #123456;
+      text-align: center;
+      overflow: hidden;
+      height: 300px;
+  }
+  
+  .header h1 {
+      background-color: #ffffff;
+      font-size: 50px;
+      margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+  }
+  
+  #registroLinks {
+    position: absolute;
+    right: 0%;
+    top: 80%;
+  }
+
+  
+  .header a {  
+    color: #f2f2f2;
+    text-align: right;
+    text-decoration: none;
+    font-size: 17px;
+    background-color: red;
+  }
+  
+  .header a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .header a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  #sesionActual {
+    background-color: white;
+    font-style: italic;
+    color: black;
+  }
+  
+  /*Estilo de barra de menú*/
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    width: 15%;
+  }
+  
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  /*Estilo de perfil*/
+  #perfil img {
+    width: 200px;
+  }
+
+  
+  /*Estilo de cuerpo*/
+  .pageBody {
+      background-color: pink;
+  }
+  
+  .pageBody h2,h3,p,input {
+      text-align: center;
+  }
+
+  
+  .pageBody table {
+      margin: auto;
+  }
+  
+  .pagebody button {
+    text-align: center;
+  }
+  
+
+  /*Estilo de catálogo*/
+  #catalogo {
+      text-align: center;
+      background-color: red;
+  }
+
+  /* Estilos para las imágenes dentro de alcanciaCont */
+  .catalogoContenedor img {
+  height: 100px;
+  width: auto; /* Para mantener la proporción de la imagen */
+  }
+
+  .catalogoContenedor {	
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    padding: 50px;
+    gap: 20px 20px;
+  }
+  
+  .alcanciaCont:hover, .addAlcanciaButton:hover {
+    background-color: purple;
+  }
+  
+  /*Estilo de contenedor de alcancia*/
+  
+
+/*
+  .alcanciaCont:hover, .addAlcanciaButton:hover {
+    background-color: purple;
+  }
+  
+  .alcanciaCont, .addAlcanciaButton {
+      float: left;
+      width: 100px;
+      height: 150px;
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      text-align: center;
+  }
+  */
+  /*Estilo de preview de alcancia*/
+  #previewAlcancia {
+      background-color: green;
+  }
+  
+  
+  #previewAlcancia .alcanciaCont {
+    float: none;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    border: 1px solid rgba(250, 0, 0, 0.8);
+  }
+
+  #previewAlcancia img {
+    height: 250px;
+    width: 250px;
+  }
+
+  #vistaPreviaPrev, #vistaPreviaFull {
+    max-width: 100%;
+    height: 250px;
+    margin-top: 10px;
+}
+
+
+#centrarBoton {
+    text-align: center;
+}
+
+#botonEnviar {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*Estilo de pagina donde se añade una alcancia al carrito*/
+  #pageAnadirAlcanciaN {
+    background-color: pink;
+  }
+
+
+  #pageAnadirAlcanciaN img {
+    width: 150px;
+  }
+
+
+/*Estilo de carrito*/
+#carritoPage td {
+  width: 20%;
+}
+
+#carritoPage img {
+  width: 100px;
+  height: 100px;
+}
+  
+
+  

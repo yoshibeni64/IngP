@@ -1,0 +1,27 @@
+$(document).ready(function() {
+    // Asigna un manejador de eventos al formulario
+    $('#formRegister2').submit(function(event) {
+        // Previene la recarga de la página
+        event.preventDefault();
+
+        // Obtén los datos del formulario
+        var formData = $('#formRegister2').serialize();
+
+        // Realiza una solicitud AJAX para obtener el mensaje desde PHP
+        $.ajax({
+            url: 'registrarUsuario2.php',
+            type: 'POST',
+            data: formData, // Envía los datos del formulario
+            dataType: 'json',
+            success: function(data) {
+
+                $('#respuestaRegU2').text(data.mensaje);
+
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
