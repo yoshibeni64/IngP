@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numeroExteriorA = $_POST["numExtA"];
 
         // Realiza la consulta SQL para obtener los usuarios con el correo específico
-        $query = "SELECT * FROM Usuarios WHERE correo = ?";
+        $query = "SELECT * FROM usuarios WHERE correo = ?";
         $stmt = $conn->prepare($query);
         $stmt->execute([$correoA]);
         

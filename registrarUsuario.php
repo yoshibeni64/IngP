@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (filter_var($correoReg, FILTER_VALIDATE_EMAIL)) {
         // Realiza la consulta SQL para obtener los usuarios con el correo específico
-        $query = "SELECT * FROM Usuarios WHERE correo = ?";
+        $query = "SELECT * FROM usuarios WHERE correo = ?";
         $stmt = $conn->prepare($query);
         $stmt->execute([$correoReg]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);

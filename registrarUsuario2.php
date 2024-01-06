@@ -22,13 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //Asignar idEstado
-    $query = "SELECT idEstado FROM Estados WHERE nombreEstado = ?";
+    $query = "SELECT idEstado FROM estados WHERE nombreEstado = ?";
     $stmt = $conn->prepare($query);
     $stmt->execute([$estado]);
     $idEstado = $stmt->fetchColumn();
 
     //Asignar idMunicipio
-    $query = "SELECT idMunicipio FROM Municipios WHERE idEstado = ? AND nombreMunicipio = ?";
+    $query = "SELECT idMunicipio FROM municipios WHERE idEstado = ? AND nombreMunicipio = ?";
     $stmt = $conn->prepare($query);
     $stmt->execute([$idEstado, $municipio]);
     $idMunicipio = $stmt->fetchColumn();

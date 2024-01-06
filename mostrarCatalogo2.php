@@ -4,7 +4,7 @@ require_once('conexion.php');
 $subcarpeta = isset($_GET['subcarpeta']) ? $_GET['subcarpeta'] : '';
 
 
-    $query = "SELECT precio FROM Precios WHERE modelo = ?";
+    $query = "SELECT precio FROM precios WHERE modelo = ?";
     $stmt = $conn->prepare($query);
     $stmt->execute([$subcarpeta]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);

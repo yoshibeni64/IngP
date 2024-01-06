@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (filter_var($correoIniciar, FILTER_VALIDATE_EMAIL)) {
 
         // Realiza la consulta SQL para obtener los usuarios con el correo específico
-        $query = "SELECT * FROM Usuarios WHERE correo = ?";
+        $query = "SELECT * FROM usuarios WHERE correo = ?";
 
         $stmt = $conn->prepare($query);
         $stmt->execute([$correoIniciar]);
@@ -36,9 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             U.cp,
             U.calle,
             U.numeroExterior
-            FROM Usuarios U
-            JOIN Estados E ON U.idEstado = E.idEstado
-            JOIN Municipios M ON U.idMunicipio = M.idMunicipio
+            FROM usuarios U
+            JOIN estados E ON U.idEstado = E.idEstado
+            JOIN municipios M ON U.idMunicipio = M.idMunicipio
             WHERE U.correo = ? AND U.passwordUsuario = ?";
 
             $stmt = $conn->prepare($query);
