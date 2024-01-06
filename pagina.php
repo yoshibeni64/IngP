@@ -13,6 +13,7 @@
     <script src="registrarUsuario2.js"></script>
     <script src="actualizarPerfil.js"></script>
     <script src="subirAlcancia.js"></script>
+    <script src="removerAlcancia.js"></script>
     <script src="mostrarCatalogo.js"></script>
 </head>
 <body>
@@ -76,10 +77,12 @@
         <td colspan="2"><input type="submit" value="Validar datos"></td>
         </tr>
     </table>
-  <div id="mensajeRegistrarUsuario"></div>
+
     </form>
+
 </div> 
 
+<p id="mensajeRegistrarUsuario"></p>
 
 <div class="pageBody" id="registroU2">
     <form id="formRegister2" action="registrarUsuario2.php" method="post">
@@ -163,7 +166,7 @@
         </tr>
         <tr>
             <td>Calle donde resides:</td>
-            <td><input id="regUdireccion" name="regUdireccion" size = 50 maxlength="100" value="callePrueba" required></td>
+            <td><input id="regUcalle" name="regUcalle" size = 50 maxlength="100" value="callePrueba" required></td>
         </tr>
         <tr>
             <td>Número exterior</td>
@@ -201,11 +204,11 @@
   <table>
     <tr>
       <td><label for="correoI">Correo Electrónico:</label></td>
-      <td><input type="email" name="correoI" id="correoI" required></td>
+      <td><input type="email" name="correoI" id="correoI" required value = "adminRiveralo64@gmail.com"></td>
     </tr>
     <tr>
-      <td><label for="passwordI">Contraseña:</label></td>
-      <td><input type="password" id="passwordI" name="passwordI" required></td>
+      <td><label for="passwordI" >Contraseña:</label></td>
+      <td><input type="password" id="passwordI" name="passwordI" value = "passwordRiveralo" required></td>
     </tr>
     <tr>
       <td colspan="2"><input type="submit" id="buttonIniciar" value="Iniciar Sesión"></td>
@@ -433,6 +436,7 @@
         <div class="column">
             <button id = "closePreviewButton" style="float:right;">X</button>
             <h3>Descripción del producto</h3>
+            <p>Disponibilidad: <span id="picStatus"></span></p>
             <p>Modelo: <span id="picModelo"></span></p>
             <p>Diseño: <span id="picDiseño"></span></p>
             <p>Precio: $<span id="picPrecio"></span> MXN</p>
@@ -447,8 +451,12 @@
         </div>
     </div>
 
-    <button id="removeAlcanciaButton">
-            <p>+<br> Quitar alcancia</p>
+    <button id="removeFromCatalogoButton">
+            Quitar del catálogo
+    </button>
+
+    <button id="addToCatalogoButton">
+            Mostrar en catálogo
     </button>
 </div>
 

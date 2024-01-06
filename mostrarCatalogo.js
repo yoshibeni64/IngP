@@ -1,19 +1,4 @@
 
-function letraContenedor(letra) {
-    var modelo;
-
-    if (letra === 'A') {
-        modelo = 'Avion';
-    } else if (letra === 'N') {
-        modelo = 'Normal';
-    } else if (letra === 'P') {
-        modelo = 'Parado';
-    }
-
-    return modelo;
-}
-    
-
 function obtenerImagenes(contenedorID, subcarpeta) {
     // Llamada Ajax para obtener las rutas de las imágenes
     $.ajax({
@@ -27,30 +12,52 @@ function obtenerImagenes(contenedorID, subcarpeta) {
             contenedor.empty(); // Limpiar el contenedor antes de agregar nuevas imágenes
 
             $.each(data.imagenesPrev, function(index, imagePath) {
+                var alcanciaCont, alcanciaStatus;
                 // Obtener el nombre de la imagen desde la ruta y quitar la extensión
                 var diseño = imagePath.split('/').pop().split('.')[0]; // Obtener el nombre sin extensión
 
-                var imagePathFull = imagePath.replace("Prev", "Full");
+
+                    var imagePathFull = imagePath.replace("Prev", "Full");
                     
-                var alcanciaCont = $('<div class="alcanciaCont"></div>');
-            
-                alcanciaCont.on('click', function() {
-                    $("#previewAlcancia").show();
-                    $("#pic1").attr("src", imagePath);
-                    $("#pic2").attr("src", imagePathFull);
-                    $("#picModelo").text(subcarpeta);
-                    $("#picDiseño").text(diseño);
-                    $("#picPrecio").text(data.precio);
-                });
-            
-                alcanciaCont.append('<img src="' + imagePath + '" alt="' + diseño + '">');
+                    
+                    if (data.interseccion.includes(diseño)) {
+                        alcanciaStatus = "inCatalogo"
+                    }
+                    
+                    else {
+                        alcanciaStatus = "onlyBD"
+                    }
 
-                alcanciaCont.append('<p>' + diseño + '</p>'); // Agregar el nombre de la imagen como párrafo
-
-
+                    alcanciaCont = $('<div class="alcanciaCont ' + alcanciaStatus + '"></div>');
                 
-                // Agregar el div 'alcanciaCont' al contenedor
-                contenedor.append(alcanciaCont);
+                    alcanciaCont.on('click', function() {
+                        $("#previewAlcancia").show();
+                        $("#picStatus").text(alcanciaStatus);
+                        
+                        $("#pic1").attr("src", imagePath);
+                        $('#pic1').attr("class", subcarpeta);
+                        $('#pic1').attr("alt", diseño);
+                        $("#pic2").attr("src", imagePathFull);
+                        $('#pic2').attr("class", subcarpeta);
+                        $('#pic2').attr("alt", diseño);
+                        $("#picPrecio").text(data.precio);
+                        $("#picModelo").text(subcarpeta);
+                        $("#picDiseño").text(diseño);
+                    });
+                
+                    
+                        alcanciaCont.append('<img src="' + imagePath + '" alt="' + diseño + '" class="' + subcarpeta + '">');
+                        alcanciaCont.append('<p>' + diseño + '</p>'); // Agregar el nombre de la imagen como párrafo
+              
+                    // Agregar el div 'alcanciaCont' al contenedor
+                        contenedor.append(alcanciaCont);
+
+                        $(".onlyBD").hide();
+
+                        if ($('#sesionActual').text().trim() === "adminRiveralo64@gmail.com") {
+                            // Mostrar todos los elementos con la clase "onlyBD"
+                            $('.onlyBD').show();
+                          }
 
             });
             

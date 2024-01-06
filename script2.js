@@ -1,8 +1,64 @@
 $(window).on('load', function() { 
 
-  $("#demo").text("asd");
+  //Código para función de remover alcancia
+  $('#removeFromCatalogoButton').on('click', function() {
+        var diseno = $('#picDiseño').text();
+        var modelo = $('#picModelo').text();
+
+        // Realizar la solicitud AJAX
+        $.ajax({
+            type: "POST", // Método de solicitud
+            url: "removerDelCatalogo.php", // URL del script PHP
+            data: {
+              diseno: diseno,
+              modelo: modelo
+            },
+
+            success: function(response) {
+                $("#previewAlcancia").hide();
+                $("#catalogo").hide();
+            },
+            error: function(error) {
+                // Manejar errores de la solicitud AJAX
+                console.log("Error:", error);
+            }
+        });
+
+  });
+
+  $('#addToCatalogoButton').on('click', function() {
+    $("#catalogo").css("background-color", "blue");
+      var diseno = $('#picDiseño').text();
+      var modelo = $('#picModelo').text();
+
+      // Realizar la solicitud AJAX
+      $.ajax({
+          type: "POST", // Método de solicitud
+          url: "anadirAlCatalogo.php", // URL del script PHP
+          data: {
+            diseno: diseno,
+            modelo: modelo
+          },
+
+          success: function(response) {
+              $("#previewAlcancia").hide();
+              $("#catalogo").hide();
+          },
+          error: function(error) {
+              // Manejar errores de la solicitud AJAX
+              console.log("Error:", error);
+          }
+      });
+
+});
 
 
+
+
+
+  //Al cargar la pagina mostrar solo el apartado de Principal
+  $(".pageBody").hide();
+      $("#principal").show();
 
     //Condiciones iniciales temporales
       $('#regUestado option[value="0"]').attr("selected",true);
@@ -15,60 +71,24 @@ $(window).on('load', function() {
       $("#addAlcanciaButton").hide();
       $("#removeAlcanciaButton").hide();
       $("#removeCatalogoText").hide();
-      
-
       $("#correoAblocked").prop("disabled", true);
       $("#actualizarInfoButton1").prop("disabled", true);
       $("#actualizarPerfilExito").hide();
+      $(".onlyBD").hide();
+      $("#actualizarInfoButton1").hide();
   
+      
+      
+      
       $("#actualizarInfoButton1").click(function(){
           $("#actualizarInfoButton1").prop("disabled", true);
           $("#nuevosDatos").show();
+          $('#mensajeActualizarPerfil').text("");
       });
 
       $("#addAlcanciaButton").on('click', function() {
         $(".pageBody").hide();
         $("#pageAnadirAlcancia").show();
-      });
-
-      //MODIFICAR
-      $('#removeAlcanciaButton').on('click', function() {
-        $("#catalogo").css("background-color", "blue");
-        // Obtén el valor del atributo src de la imagen con id "pic1"
-
-        var imagenPrev = $("#pic1").attr("src");
-        var imagenFull = $("#pic2").attr("src");
-
-        // Configura los datos que se enviarán al servidor
-        var data = {
-          archivo_a_eliminar_Prev: imagenPrev,
-          archivo_a_eliminar_Full: imagenFull
-        };
-
-        // Realiza la solicitud AJAX
-        $.ajax({
-          url: 'removerAlcancia.php', // Ruta del archivo PHP
-          type: 'POST', // Puedes cambiar a 'POST' si es necesario
-          success: function(response) {
-              console.log(response); // Maneja la respuesta del servidor
-          },
-          error: function(error) {
-              console.error('Error en la solicitud AJAX:', error);
-          }
-      });
-
-
-
-
-
-
-        obtenerImagenes('contenedorCatalogoN', 'Normal');
-        $("#contenedorCatalogoN").show();
-        $("#contenedorCatalogoP").hide();
-        $("#contenedorCatalogoA").hide();   
-        $("#previewAlcancia").hide();
-
-
       });
 
       $("#closePreviewButton").click(function(){
@@ -84,20 +104,17 @@ $(window).on('load', function() {
         $("#respuestaIniciarU").text("");
         $("#avisoContinuarCompra").hide();
         $("#datosEnvio1").hide();
+        $('#mensajeRegistrarUsuario').hide();
+        $('#mensajeActualizarPerfil').text("");
       });
-      /*Quitar comentario al finalizar
-        $(".pageBody").hide();
-        $("#principal").show();
-        $("#excesoPedidosTexto").hide();
-        */
-      
-        
 
+      //Codigos para mostrar catalogos segun el boton presionado
         $("#buttonCatalogoN").click(function(){
           $("#contenedorCatalogoN").show();
           $("#contenedorCatalogoP").hide();
           $("#contenedorCatalogoA").hide();   
           $("#previewAlcancia").hide();
+          $("#alcanciaBorradaTexto").hide();
         });
       
       $("#buttonCatalogoP").click(function(){
@@ -114,7 +131,8 @@ $(window).on('load', function() {
         $("#contenedorCatalogoN").hide();
         $("#previewAlcancia").hide();
       });
-  
+
+      //Codigo para las pestanas
       $("#principalLink").click(function(){
         $(".pageBody").hide();
         $("#principal").show();
@@ -149,6 +167,9 @@ $(window).on('load', function() {
         $(".pageBody").hide();
         $("#registroU1").show();
         $("#registroU2").hide();
+
+
+        //VACIAR TODOS LOS CAMPOS
       });
   
       $("#iniciarULink").click(function(){

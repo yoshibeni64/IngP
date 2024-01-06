@@ -30,12 +30,14 @@ $(document).ready(function() {
                     $(".userInfo#numeroExterior").text(data.numeroExteriorPerfil);
                     $(".userInfo#cp").text(data.cpPerfil);
                     $("#noConnectedUserText").hide();
-                    $("#actualizarInfoButton1").prop("disabled", false);
+                    $("#actualizarInfoButton1").show();
+                    
 
 
                     //Habilitar modo administrador 
                     
                     if (data.correoPerfil == "adminRiveralo64@gmail.com") {
+                        $("#catalogo").css("background-color", "blue");
                         $("#addAlcanciaButton").show();
                         $("#removeAlcanciaButton").show();
                         $("#principalLink").hide();

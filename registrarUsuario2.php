@@ -3,14 +3,17 @@ require_once('conexion.php');
 
 // Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener los valores de los inputs
+
+    $correoReg = $_POST["correoR"];
+    $contrasenaReg = $_POST["passwordR"];
+    $contrasenaConf = $_POST["passwordConfR"];
     $estado = $_POST["estadoSelect"];
     $municipio = $_POST["municipioReg"];
-    $direccion = $_POST["regUdireccion"];
+    $calle = $_POST["regUcalle"];
     $codigoPostal = $_POST["regUcp"];
     $numeroExterior = $_POST["regUnumExt"];
 
-    if ($estado == 0 || $municipio == 0 || $direccion == "" || $numeroExterior == "" || $codigoPostal == "" || $numeroExterior == "") {
+    if ($estado == 0 || $municipio == 0 || $calle == "" || $numeroExterior == "" || $codigoPostal == "" || $numeroExterior == "") {
         $mensaje = "ERROR. Favor de no dejar casillas en blanco. Corrija e intente nuevamente.";
     } elseif (strlen($codigoPostal) != 5) {
         $mensaje = "ERROR. Procura que el Codigo Postal cuente con 5 digitos exactos.";
@@ -18,14 +21,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensaje = "El registro se ha realizado correctamente.";
     }
 
+    //Asignar idEstado
+    $query = "SELECT idEstado FROM Estados WHERE nombreEstado = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$estado]);
+    $idEstado = $stmt->fetchColumn();
+
+    //Asignar idMunicipio
+    $query = "SELECT idMunicipio FROM Municipios WHERE idEstado = ? AND nombreMunicipio = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$idEstado, $municipio]);
+    $idMunicipio = $stmt->fetchColumn();
+
+
+    //Registrar usuario en la BD
+
+    $query = "INSERT INTO usuarios (correo, passwordUsuario, idEstado, idMunicipio, cp, calle, numeroExterior) 
+              VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($query);
+    $stmt->execute([$correoReg, $contrasenaReg, $idEstado, $idMunicipio, $codigoPostal, $calle, $numeroExterior]);
+
+    $conn = null;
+    
+
+
     $datos = array(
+        "correoReg" => $correoReg,
+        "contrasenaReg" => $contrasenaReg,
+        "contrasenaConf" => $contrasenaConf,
         "estado" => $estado,
+        "idMunicipio" => $idMunicipio,
         "municipio" => $municipio,
-        "direccion" => $direccion,
+        "direccion" => $calle,
         "codigoPostal" => $codigoPostal,
         "mensaje" => $mensaje,
         "numeroExterior" => $numeroExterior
     );
+
+
+    
 
     // Convertir el array a formato JSON
     echo json_encode($datos);

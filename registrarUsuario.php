@@ -16,6 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute([$correoReg]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $conn = null;
+
         $mensaje = ($row) ? "ERROR: Ya existe una cuenta registrada con este correo." : "a";
 
         if ($mensaje == "a") {

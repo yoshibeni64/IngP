@@ -17,12 +17,12 @@ $(document).ready(function() {
             success: function(data) {
                 // Actualiza el contenido del div con el mensaje
                 $('#mensajeRegistrarUsuario').text(data.mensaje);
+                $('#mensajeRegistrarUsuario').show();
 
                 if (data.registro2 == 1) {
                     $("#registroU2").show();
-                    $("#regUbutton1").prop('disabled', true);
-
                     $('#registroU2 #estadoSelect').val('0');
+                    $('#registroU1').hide();
                 }
             },
             error: function(error) {

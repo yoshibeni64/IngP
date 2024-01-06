@@ -6,6 +6,13 @@ $(document).ready(function() {
 
         // Obtén los datos del formulario
         var formData = $('#formRegister2').serialize();
+        var correoR = $('#correoR').val();
+        var passwordR = $('#passwordR').val();
+        var passwordConfR = $('#passwordConfR').val();
+        // Agrega el valor de #x a los datos del formulario
+        formData += '&correoR=' + encodeURIComponent(correoR);
+        formData += '&passwordR=' + encodeURIComponent(passwordR);
+        formData += '&passwordConfR=' + encodeURIComponent(passwordConfR);
 
         // Realiza una solicitud AJAX para obtener el mensaje desde PHP
         $.ajax({

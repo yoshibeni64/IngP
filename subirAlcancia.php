@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Aquí puedes realizar cualquier otra acción necesaria, como almacenar información en una base de datos.
 
         // Mensaje de éxito
-        $mensaje = "¡Imágenes subidas con éxito! Nombre del diseño: " . $nuevoDiseno;
+        $mensaje = "¡Imágenes subidas con éxito! El diseño " . $nuevoDiseno . " ya se encuentra en el catálogo de modelo " . $subcarpeta;
     }
 } else {
     // Mensaje de error si la solicitud no es POST
