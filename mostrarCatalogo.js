@@ -16,18 +16,16 @@ function obtenerImagenes(contenedorID, subcarpeta) {
                 // Obtener el nombre de la imagen desde la ruta y quitar la extensión
                 var diseño = imagePath.split('/').pop().split('.')[0]; // Obtener el nombre sin extensión
 
-
                     var imagePathFull = imagePath.replace("Prev", "Full");
-                    
-                    
-                    if (data.interseccion.includes(diseño)) {
-                        alcanciaStatus = "inCatalogo"
-                    }
-                    
-                    else {
-                        alcanciaStatus = "onlyBD"
+
+                    if (data.disenosCatalogo.includes(diseño)) {
+                        alcanciaStatus = "inCatalogo";
                     }
 
+                    else {
+                        alcanciaStatus = "onlyBD";
+                    }
+                    
                     alcanciaCont = $('<div class="alcanciaCont ' + alcanciaStatus + '"></div>');
                 
                     alcanciaCont.on('click', function() {
@@ -54,10 +52,15 @@ function obtenerImagenes(contenedorID, subcarpeta) {
 
                         $(".onlyBD").hide();
 
-                        if ($('#sesionActual').text().trim() === "adminRiveralo64@gmail.com") {
-                            // Mostrar todos los elementos con la clase "onlyBD"
+                        if ($('#sesionActual').text().trim() === "MODO ADMINISTRADOR") {
                             $('.onlyBD').show();
+                            $('#mensajeCatalogoVacio').html("");
                           }
+
+                        else {
+                            $('#mensajeCatalogoVacio').html(data.mensaje);
+                        }
+
 
             });
             

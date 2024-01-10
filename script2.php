@@ -3,7 +3,7 @@
 include 'script.php';
 require_once('conexion.php');
 
-$sql = "SELECT * FROM Municipios WHERE idEstado = :idEstado";
+$sql = "SELECT * FROM municipios WHERE idEstado = :idEstado";
 
 // Preparar la consulta
 $stmt = $conn->prepare($sql);

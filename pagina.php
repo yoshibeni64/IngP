@@ -11,28 +11,29 @@
     <script src="iniciarSesion2.js"></script>
     <script src="registrarUsuario.js"></script>
     <script src="registrarUsuario2.js"></script>
+
     <script src="actualizarPerfil.js"></script>
-    <script src="subirAlcancia.js"></script>
-    <script src="removerAlcancia.js"></script>
     <script src="mostrarCatalogo.js"></script>
+
+    <script src="cotizarConCP.js"></script>
 </head>
 <body>
 <p id="demo"></p>
 <div class = "header">
 	<h1>Arte Riveralo</h1>
     <div id = "registroLinks">
-        <a id="sesionActual">No has iniciado sesion</a><br>
-    	<a class="pageChanger" id = "registroULink">Registrarse</a>
+        <a id="sesionActual">No has iniciado sesión</a><br>
+    	<a class="pageChanger hideInAdmin" id = "registroULink">Registrarse</a>
     	<a class="pageChanger" id = "iniciarULink">Iniciar sesión</a>
     </div>
 </div>
 
 <div class="topnav">
-    <a class="pageChanger" id="principalLink">Página principal</a>
-    <a class="pageChanger" id="perfilLink">Perfil</a>
+    <a class="pageChanger hideInAdmin" id="principalLink">Página principal</a>
+    <a class="pageChanger hideInAdmin" id="perfilLink">Perfil</a>
     <a class="pageChanger" id="catalogoLink">Catálogo</a>
-    <a class="pageChanger" id="carritoLink">Carrito de compras</a>
-    <a class="pageChanger" id="buzonLink">Buzón de quejas</a>
+    <a class="pageChanger hideInAdmin" id="carritoLink">Carrito de compras</a>
+    <a class="pageChanger hideInAdmin" id="buzonLink">Buzón de quejas</a>
 </div>
 
 
@@ -49,7 +50,7 @@
         superior derecha de está página.</h3>
     <h3>Te invitamos a seguirnos en nuestro Instagram:</h3>
     <a href="https://instagram.com/analauriveralo?igshid=MzRlODBiNWFlZA==">
-        <img src="images/instagram logo.jpg">
+        <img src="images/instagramLogo.png">
     </a>
 </div>
 
@@ -74,15 +75,15 @@
         <td><input type="password" id="passwordConfR" name="passwordConfR" minlength="8" maxlength="50" required></td>
         </tr>
         <tr>
-        <td colspan="2"><input type="submit" value="Validar datos"></td>
+        <td colspan="2"><button type="submit" id="continuarRegButton">Validar datos</button></td>
         </tr>
     </table>
 
     </form>
-
+    <p id="mensajeRegistrarUsuario" class="hideInChange"></p>
 </div> 
 
-<p id="mensajeRegistrarUsuario"></p>
+
 
 <div class="pageBody" id="registroU2">
     <form id="formRegister2" action="registrarUsuario2.php" method="post">
@@ -170,18 +171,18 @@
         </tr>
         <tr>
             <td>Número exterior</td>
-            <td><input id="regUnumExt" name="regUnumExt" size = 50 maxlength="10" required></td>
+            <td><input id="regUnumExt" name="regUnumExt" type="number" size = 50 maxlength="10" required></td>
         </tr>
         <tr>
             <td>Código Postal:</td>
-            <td><input id="regUcp" name="regUcp" type="number" minlength="5" maxlength="5" value=57740 required></td>
+            <td><input id="regUcp" name="regUcp" type="number" minlength="5" maxlength="5" required></td>
         </tr>
         <tr>
-            <td colspan="2"><input type="submit" value="Validar datos"></td>
+            <td colspan="2"><button type="submit" id="completarRegButton">Validar datos</button></td>
         </tr>
         </table>
         
-        <p id="respuestaRegU2"></p>
+        <p id="respuestaRegU2" class="hideInChange"></p>
     </form>
     
 </div>
@@ -204,17 +205,17 @@
   <table>
     <tr>
       <td><label for="correoI">Correo Electrónico:</label></td>
-      <td><input type="email" name="correoI" id="correoI" required value = "adminRiveralo64@gmail.com"></td>
+      <td><input type="email" name="correoI" id="correoI" maxlength="50" required ></td>
     </tr>
     <tr>
       <td><label for="passwordI" >Contraseña:</label></td>
-      <td><input type="password" id="passwordI" name="passwordI" value = "passwordRiveralo" required></td>
+      <td><input type="password" id="passwordI" name="passwordI" minlength="8" maxlength="50" required></td>
     </tr>
     <tr>
-      <td colspan="2"><input type="submit" id="buttonIniciar" value="Iniciar Sesión"></td>
+      <td colspan="2"><button type="submit" id="buttonIniciar">Iniciar Sesión</button></td>
     </tr>
   </table>
-  <div id="mensajeIniciarSesion"></div>
+  <div id="mensajeIniciarSesion" class="hideInChange"></div>
 </form>
 
 
@@ -260,11 +261,11 @@
 
 
     <form id="formActualizarPerfil" action="actualizarPerfil.php" method="post">
-    <input type="hidden" name="correoA" id="correoA" required>
+    <input type="hidden" name="correoA" id="correoA" maxlength="50" required>
     <table>
         <tr>
         <td><label for="correoAblocked">Correo Electrónico:</label></td>
-        <td><input type="email" name="correoAblocked" id="correoAblocked" required></td>
+        <td><div name="correoAblocked" id="correoAblocked"></div></td>
         </tr>
         <tr>
         <td><label for="passwordA">Contraseña:</label></td>
@@ -354,23 +355,23 @@
       </tr>
       <tr>
           <td>Calle donde resides:</td>
-          <td><input id="calleA" name="calleA" size = 30 value="callePaleta" required></td>
+          <td><input id="calleA" name="calleA" size = 30 value="callePaleta" maxlength="100" required></td>
       </tr>
       <tr>
           <td>Número exterior de domicilio:</td>
-          <td><input type = "number" id="numExtA" name="numExtA" size = 30 value="192" required></td>
+          <td><input type = "number" id="numExtA" name="numExtA" size = 30 maxlength="10" required></td>
       </tr>
       <tr>
           <td>Código Postal:</td>
-          <td><input id="cpA" name="cpA" type="number" minlength="5" maxlength="5" value=57740 required></td>
+          <td><input id="cpA" name="cpA" type="number" minlength="5" maxlength="5" required></td>
       </tr>
       <tr>
-          <td colspan="2"><input type="submit" value="Actualizar datos de perfil"></td>
+          <td colspan="2"><button type="submit">Actualizar datos de perfil"</button></td>
       </tr>
 
         
     </table>
-  <div id="mensajeActualizarPerfil"></div>
+  <div id="mensajeActualizarPerfil" class="hideInChange"></div>
     </form>
 
 
@@ -394,13 +395,16 @@
     <button id = "buttonCatalogoN">Normal</button>
     <button id = "buttonCatalogoP">Parado</button>
     <button id = "buttonCatalogoA">Avión</button>
+    <br>
     
-    <button id="addAlcanciaButton">
+    <button id="addAlcanciaButton" class="hideInUser">
             <p>+<br> Añadir alcancia</p>
     </button>
+    <br>
   
     <h3>Selecciona el diseño que desees consultar:</h3>
     <h3 id = "removeCatalogoText">Selecciona el diseño que desees eliminar:</h3>
+    <h2 id = "mensajeCatalogoVacio"></h2>
     
     
 
@@ -436,26 +440,26 @@
         <div class="column">
             <button id = "closePreviewButton" style="float:right;">X</button>
             <h3>Descripción del producto</h3>
-            <p>Disponibilidad: <span id="picStatus"></span></p>
+            <p class="hideInUser">Disponibilidad: <span id="picStatus"></span></p>
             <p>Modelo: <span id="picModelo"></span></p>
             <p>Diseño: <span id="picDiseño"></span></p>
             <p>Precio: $<span id="picPrecio"></span> MXN</p>
-            <p>Unidades a agregar:
+            <p class="hideInAdmin">Unidades a agregar:
                 <select id="nAlcanciasAgregar">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                   </select>
-            <button id="agregarAlCarritoButton">Agregar al carrito</button></p>
+            <button id="agregarAlCarritoButton" class="hideInAdmin">Agregar al carrito</button></p>
         </div>
     </div>
 
-    <button id="removeFromCatalogoButton">
-            Quitar del catálogo
+    <button id="removeFromCatalogoButton" class="hideInUser">
+            Remover del catálogo
     </button>
 
-    <button id="addToCatalogoButton">
+    <button id="addToCatalogoButton" class="hideInUser">
             Mostrar en catálogo
     </button>
 </div>
@@ -485,7 +489,7 @@
                     <label for="nuevoDiseno">Inserta el nombre del diseño de la nueva alcancía:</label>
                 </td>
                 <td>
-                    <input type="text" id="nuevoDiseno" name="nuevoDiseno">
+                    <input type="text" id="nuevoDiseno" name="nuevoDiseno" maxlength="50">
                 </td>
             </tr>
             
@@ -510,14 +514,14 @@
             
             <tr id="centrarBoton">
                 <td colspan="2">
-                    <button id="botonEnviar" type="button">Enviar</button>
+                    <button id="botonEnviar" type="submit">Enviar</button>
                 </td> 
             </tr>
         </table>
     </form>
     
 
-    <div id="mensajeSubirAlcancia"></div>
+    <div id="mensajeSubirAlcancia" class="hideInChange"></div>
 
     <script>
         function mostrarVistaPrevia(inputId, vistaPreviaId) {
@@ -536,6 +540,7 @@
             }
         }
     </script>
+
 
 <script>
     // Manejar el envío del formulario con jQuery.ajax
@@ -574,8 +579,8 @@
 <div class="pageBody" id="carritoPage">
     
     
-    
-
+    <div id="datosEnvio0">
+    <h2>Tu carrito de compras</h2>
     <!-- Carrito con articulos -->
     <table id = "carritoTable">
         <tr>
@@ -585,20 +590,33 @@
             <th>Eliminar</th>
         </tr>
     </table>
-    <h2>Tu carrito de compras</h2>
+    
     <!-- Carrito vacio -->
     <p id = "carritoVacioText">Tu carrito está vacío. Consulta el catálogo para comenzar a llenar tu pedido.</p>
     <p id = "subtotalText">Costo del contenido del pedido (Subtotal): $<span id="subtotal">0</span> MXN</p>
     <p><button id="vaciarCarritoButton">Vaciar carrito de compras</button></p>
     <!-- Error de exceso de alcancias -->
     <p id = "excesoPedidosTexto">Error: No se podrá concretar la compra porque el número límite máximo de alcancías por pedido es de 4.</p>
-    <p><button id="continuarPedidoButton1">Continuar con la compra</button></p>
-    <p id = "avisoContinuarCompra">Para continuar con la compra debes iniciar sesión, o bien puedes registrar tu Código Postal para cotizar el pedido</p>
+    <p><button id="continuarPedidoButton1">Continuar</button></p>
+    </div>
 
-    <!-- Datos de envio -->
-    <div id="datosEnvio1">
+    <div id="datosEnvio1S" class="hideInChange">
+    <p>Para continuar con la compra debes iniciar sesión, o bien puedes registrar tu Código Postal para cotizar el pedido</p>
+    <form id="formCotizarconCP" action="cotizarConCP.php" method="post">
+    <input id="cpCotizacion" name="cpCotizacion" type="number" minlength="5" maxlength="5" required>
+    <button type="submit" id="cpCotizacionButton">Cotiza tu pedido</button>
+    </form>
+    <h2>Contenido del pedido</h2>
+    <table class = "pedidoTable"></table>
+    <p class="userInfo pageChanger" id="costoEnvioSin"></p>
+    
+    </div>
+    
+
+    <!-- Cotización con sesión iniciada -->
+    <div id="datosEnvio1C" class="hideInChange">
         <h2>Tus datos de envio</h2>
-        <p>Si deseas cambiar la dirección de envio, deberás actualizar tu información de contacto en Perfil.</p>
+        <p>Verifica que los datos de envío y del pedido son correctos. </br>Si deseas cambiar algún dato de la dirección de envío puedes realizarlo en la sección de perfil.</p>
         <table>
         <tr>
     	    <td>Estado de la República donde resides:</td>
@@ -609,15 +627,32 @@
             <td><span class="userInfo" id="municipioEnvio"></span></td>
         </tr>
         <tr>
-            <td>Dirección particular</td>
+            <td>Dirección de envío:</td>
             <td><span class="userInfo" id="direccionEnvio"></span></td>
         </tr>
         <tr>
-            <td>Código Postal</td>
+            <td>Código Postal:</td>
             <td><span class="userInfo" id="cpEnvio"></span></td>
         </tr>
+        <tr>
+            <td>Costo de envío:</td>
+            <td><span class="userInfo pageChanger" id="costoEnvioCon"></span></td>
+        </tr>
         </table>
+        <h2>Contenido del pedido</h2>
+        <table class = "pedidoTable"></table>
     </div>
+
+
+    <!-- Datos del pedido -->
+    <div id="datosEnvio2" class="hideInChange">
+        <h2>Confirma tu pedido</h2>
+        <table class = "pedidoTable"></table>
+    </div>
+
+
+
+
 </div>
 
 <div class="pageBody" id="buzon">

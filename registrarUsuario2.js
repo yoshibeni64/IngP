@@ -21,8 +21,13 @@ $(document).ready(function() {
             data: formData, // Envía los datos del formulario
             dataType: 'json',
             success: function(data) {
-
+                $('#respuestaRegU2').show();
                 $('#respuestaRegU2').text(data.mensaje);
+                
+                if (data.mensaje.includes("correctamente")) {
+                $("#completarRegButton").prop("disabled", true);
+                $("#completarRegButton").hide();
+                }
 
 
             },

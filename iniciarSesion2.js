@@ -14,7 +14,8 @@ $(document).ready(function() {
           data: formData, // Envía los datos del formulario
           dataType: 'json',
           success: function(data) {
-              
+            
+            $('#mensajeIniciarSesion').show();
             $('#mensajeIniciarSesion').text(data.mensaje);
 
                 
@@ -22,7 +23,7 @@ $(document).ready(function() {
                     $("#sesionActual").text(data.correoPerfil);
                     $(".userInfo#email").text(data.correoPerfil);
                     $("#correoA").val(data.correoPerfil);
-                    $("#correoAblocked").val(data.correoPerfil);
+                    $("#correoAblocked").text(data.correoPerfil);
                     $(".userInfo#password").text(data.contrasenaPerfil);
                     $(".userInfo#estado").text(data.estadoPerfil);
                     $(".userInfo#municipio").text(data.municipioPerfil);
@@ -37,30 +38,24 @@ $(document).ready(function() {
                     //Habilitar modo administrador 
                     
                     if (data.correoPerfil == "adminRiveralo64@gmail.com") {
+                        $("#sesionActual").text("MODO ADMINISTRADOR");
+                        $(".hideInAdmin").hide();
+                        $(".hideInUser").show();
+
+                        $(".pageBody").css("background-color", "#D29BFD");
                         $("#catalogo").css("background-color", "blue");
-                        $("#addAlcanciaButton").show();
-                        $("#removeAlcanciaButton").show();
-                        $("#principalLink").hide();
-                        $("#perfilLink").hide();
-                        $("#carritoLink").hide();
-                        $("#buzonLink").hide();
+
                     }
 
                     else {
-                        $("#addAlcanciaButton").hide();
-                        $("#removeAlcanciaButton").hide();
-                        $("#principalLink").show();
-                        $("#perfilLink").show();
-                        $("#carritoLink").show();
-                        $("#buzonLink").show();
+                        $(".hideInAdmin").show();
+                        $(".hideInUser").hide();
+
+                        $(".pageBody").css("background-color", "pink");
+                        $("#catalogo").css("background-color", "red");
                     }
 
                 }
-
-                
-
-                
-
 
 
           },

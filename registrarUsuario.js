@@ -20,9 +20,13 @@ $(document).ready(function() {
                 $('#mensajeRegistrarUsuario').show();
 
                 if (data.registro2 == 1) {
+                    $("#continuarRegButton").prop("disabled", true);
+                    $("#continuarRegButton").hide();
                     $("#registroU2").show();
                     $('#registroU2 #estadoSelect').val('0');
-                    $('#registroU1').hide();
+                    $("#completarRegButton").prop("disabled", false);
+                    $("#completarRegButton").show();
+
                 }
             },
             error: function(error) {

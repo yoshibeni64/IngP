@@ -5,6 +5,10 @@ body {
     font-family: Arial;
   }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
 
 table {
     margin-top: 20px;
@@ -12,9 +16,6 @@ table {
     width: auto;
 }
 
-table, th, td {
-    border: 1px solid #ddd;
-}
 
 th, td {
     padding: 10px;

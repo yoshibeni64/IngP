@@ -438,6 +438,14 @@ $(document).ready(function(){
       
     });
 
+
+    function fillDatosEnvio1() {
+      $(".userInfo#estadoEnvio").text(usuarioConectado.estado);
+      $(".userInfo#municipioEnvio").text(usuarioConectado.municipio);
+      $(".userInfo#direccionEnvio").text(usuarioConectado.direccion);
+      $(".userInfo#cpEnvio").text(usuarioConectado.cp);
+    }
+
     $("#continuarPedidoButton1").click(function(){
       if (usuarioConectado) {
         fillDatosEnvio1();

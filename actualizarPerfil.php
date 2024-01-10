@@ -3,8 +3,7 @@
 require_once('conexion.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener el correo electrónico enviado desde el formulario
-    $correoA = filter_input(INPUT_POST, 'correoA', FILTER_SANITIZE_EMAIL);
+    $correoA = $_POST["correoA"];
     $passwordA = filter_input(INPUT_POST, 'passwordA', FILTER_SANITIZE_STRING);
     $passwordConfA = filter_input(INPUT_POST, 'passwordConfA', FILTER_SANITIZE_STRING);
     $estadoA = $_POST["estadoSelectA"];
@@ -12,29 +11,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $calleA = $_POST["calleA"];
     $codigoPostalA = $_POST["cpA"];
     $numeroExteriorA = $_POST["numExtA"];
+    $error = 0;
 
-        // Realiza la consulta SQL para obtener los usuarios con el correo específico
-        $query = "SELECT * FROM usuarios WHERE correo = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->execute([$correoA]);
-        
-        
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($estadoA == 0 || $municipioA == 0 || $calleA == "" || $numeroExteriorA == "" || $codigoPostalA == "") {
             $mensaje = "ERROR. Favor de no dejar casillas en blanco. Corrija e intente nuevamente.";
+            $error = 1;
         }
 
-        elseif ($passwordA != $passwordConfA) {
+        else if ($passwordA != $passwordConfA) {
             $mensaje = "ERROR. Las contraseñas no coinciden. Corrige e intenta nuevamente.";
+            $error = 1;
         }
     
-        elseif(strlen($codigoPostalA) != 5) {
+        else if(strlen($codigoPostalA) != 5) {
             $mensaje = "ERROR. Procura que el Codigo Postal cuente con 5 digitos exactos.";
+            $error = 1;
         }
     
-        else {
+        if ($error == 0) {
             $mensaje = "La actualización de datos se ha realizado correctamente.";
+
+            $query = "SELECT idEstado FROM estados WHERE nombreEstado = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$estadoA]);
+            $idEstadoA = $stmt->fetchColumn();
+
+            //Asignar idMunicipio
+            $query = "SELECT idMunicipio FROM municipios WHERE idEstado = ? AND nombreMunicipio = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$idEstadoA, $municipioA]);
+            $idMunicipioA = $stmt->fetchColumn();
+
+
+            $query = "UPDATE usuarios SET passwordUsuario = ?, idEstado = ?, idMunicipio = ?, cp = ?, calle = ?, numeroExterior = ? 
+            WHERE correo = ?";
+
+            $stmt = $conn->prepare($query);
+            $stmt->execute([$passwordA, $idEstadoA, $idMunicipioA, $codigoPostalA, $calleA, $numeroExteriorA, $correoA]);
+
+            $conn = null;
         }
        
     

@@ -7,6 +7,9 @@ $(document).ready(function() {
         // Obtén los datos del formulario
         var formData = $('#formActualizarPerfil').serialize();
 
+        var correoA = $('#correoAblocked').text().trim();
+        formData += '&correoA=' + correoA;
+
         // Realiza una solicitud AJAX para obtener el mensaje desde PHP
         $.ajax({
             url: 'actualizarPerfil.php',
@@ -14,7 +17,7 @@ $(document).ready(function() {
             data: formData, // Envía los datos del formulario
             dataType: 'json',
             success: function(data) {
-
+                $('#mensajeActualizarPerfil').show();
                 $('#mensajeActualizarPerfil').text(data.mensaje);
 
                 if (data.mensaje == "La actualización de datos se ha realizado correctamente.") {
@@ -26,7 +29,6 @@ $(document).ready(function() {
                     $(".userInfo#numeroExterior").text(data.numeroExterior);
                     $(".userInfo#cp").text(data.cp);
                     
-                    $("#actualizarInfoButton1").prop("disabled", false);
                     $("#nuevosDatos").hide();
                     $("#actualizarPerfilExito").show();
                 }

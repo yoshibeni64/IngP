@@ -1,8 +1,9 @@
 <?php
-// Inicializar la variable mensaje
+require_once('conexion.php');
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $error = 0;
 
     $nuevoDiseno = $_POST["nuevoDiseno"];
     $modelo = $_POST["modelo"];
@@ -28,15 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombreImagenPrev = $directorioDestinoPrev . $nuevoDiseno . "." . pathinfo($imagenPrev["name"], PATHINFO_EXTENSION);
 
     // Verificar si la imagen ya existe en el directorio de destino
-    if (!preg_match('/^[a-zA-Z0-9]+$/', $nuevoDiseno)) {
-        $mensaje .= "Error: La entrada debe contener solo letras y números." . "\n";
+    if (!preg_match('/^[a-zA-Z0-9\s]+$/', $nuevoDiseno)) {
+        $mensaje .= "Error: La entrada debe contener solo letras, números y espacios." . "\n";
+        $error = 1;
     }
     
     else if (file_exists($nombreImagenPrev)) {
         $mensaje .= "Error: La imagen ya existe en el directorio de destino." . "\n";
+        $error = 1;
     } 
     
-    else {
+    if ($error == 0) {
         // Mover la imagenPrev al directorio de destino con un nombre único basado en $nuevoDiseno
         move_uploaded_file($imagenPrev["tmp_name"], $nombreImagenPrev);
 
@@ -44,10 +47,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombreImagenFull = $directorioDestinoFull . $nuevoDiseno . "." . pathinfo($imagenFull["name"], PATHINFO_EXTENSION);
         move_uploaded_file($imagenFull["tmp_name"], $nombreImagenFull);
 
-        // Aquí puedes realizar cualquier otra acción necesaria, como almacenar información en una base de datos.
 
-        // Mensaje de éxito
-        $mensaje = "¡Imágenes subidas con éxito! El diseño " . $nuevoDiseno . " ya se encuentra en el catálogo de modelo " . $subcarpeta;
+        $query = "INSERT INTO cat_alc(modelo, diseno, disponibilidad)
+            VALUES(?,?,1)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$modelo, $nuevoDiseno]);
+
+        $conn = null;
+
+
+
+        $mensaje = "¡Imágenes subidas con éxito! El diseño " . $nuevoDiseno . " ya se encuentra en el catálogo de modelo " . $modelo;
     }
 } else {
     // Mensaje de error si la solicitud no es POST
