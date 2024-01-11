@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     else if ($idEstado == false && $idEstado == null) {
         $datos = [
-            "mensaje" => "El Codigo Postal no corresponde con ningún estado de la República Mexicana. Corrija e intente nuevamente"
+            "mensaje" => "El Código Postal no corresponde con ningún estado de la República Mexicana. Corrija e intente nuevamente"
         ];
         $error = 1;
     }
@@ -35,12 +35,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $precioEnvio = $result['precioEnvio'];
 
         $datos = [
-            "mensaje" => "El Codigo Postal proviene del estado de " . $estado . " y el costo de envío sería igual a $" . $precioEnvio . " MXN",
+            "mensaje" => "El Código Postal proviene del estado de " . $estado . " y el costo de envío sería igual a $" . $precioEnvio . " MXN",
             "precioEnvio" => $precioEnvio
         ];
     } 
 
     echo json_encode($datos);
-    $conn = null;
 }
+
+else {
+    // Manejar el caso en el que el formulario no se ha enviado correctamente
+    $mensaje = "El formulario no se ha enviado correctamente.";
+    $datos = array("mensaje" => $mensaje);
+    echo json_encode($datos);
+}
+
+$conn = null;
 ?>

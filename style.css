@@ -3,6 +3,7 @@
 body {
     margin: 0;
     font-family: Arial;
+    text-align: center;
   }
 
 table, th, td {
@@ -36,6 +37,13 @@ th, td {
   display: table;
   clear: both;
 }
+
+.mensaje {
+  text-align: center;
+  font-weight: bold;
+  color: red;
+}
+
 
 img {
   display: block;
@@ -256,12 +264,6 @@ color: white;
   #pageAnadirAlcanciaN img {
     width: 150px;
   }
-
-
-/*Estilo de carrito*/
-#carritoPage td {
-  width: 20%;
-}
 
 #carritoPage img {
   width: 100px;

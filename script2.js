@@ -69,6 +69,38 @@ $(window).on('load', function() {
 });
 
 
+function actualizarMunicipios(estadoSelectID, municipioSelectID) {
+  // Obtener el valor seleccionado
+  var valorSeleccionado = $(estadoSelectID).val();
+
+  // Realizar la solicitud AJAX para ejecutar el script PHP
+  $.ajax({
+      type: 'POST',
+      url: 'script2.php',
+      data: {opcion: valorSeleccionado},
+      success: function(response) {
+          // Actualizar el contenido en el municipioSelectID con la respuesta del PHP
+          $(municipioSelectID).html(response);
+      },
+      error: function(error) {
+          console.log(error);
+      }
+  });
+}
+
+// Manejador de eventos para el cambio en el select
+$('#estadoSelect').change(function() {
+  // Llamar a la función con los ID correspondientes
+  actualizarMunicipios('#estadoSelect', '#municipioReg');
+});
+
+$('#estadoSelectA').change(function() {
+  // Llamar a la función con los ID correspondientes
+  actualizarMunicipios('#estadoSelectA', '#municipioA');
+});
+
+
+
 
 
 
@@ -78,22 +110,31 @@ $(window).on('load', function() {
 
     //Condiciones iniciales temporales
       $('#regUestado option[value="0"]').attr("selected",true);
-      $("#nuevosDatos").hide();
-      $("#excesoPedidosTexto").hide();
-      $("#continuarPedidoButton1").hide();
-      $("#vaciarCarritoButton").hide();
-      $("#subtotalText").hide();
-      $("#datosEnvio1").hide();
-      $("#addAlcanciaButton").hide();
-      $("#removeAlcanciaButton").hide();
-      $("#removeCatalogoText").hide();
       $("#correoAblocked").prop("disabled", true);
       $("#actualizarInfoButton1").prop("disabled", true);
-      $("#actualizarPerfilExito").hide();
       $(".onlyBD").hide();
       $(".hideInUser").hide();
-      $("#actualizarInfoButton1").hide();
+      $(".hideInStart").hide();
       $(".showInCotizar").hide();
+      
+
+      // $('#regUestado option[value="0"]').attr("selected",true);
+      // $("#nuevosDatos").hide();
+      // $("#excesoPedidosTexto").hide();
+      // $("#continuarPedidoButton1").hide();
+      // $("#vaciarCarritoButton").hide();
+      // $("#subtotalText").hide();
+      // $("#datosEnvio1").hide();
+      // $("#addAlcanciaButton").hide();
+      // $("#removeAlcanciaButton").hide();
+      // $("#removeCatalogoText").hide();
+      // $("#correoAblocked").prop("disabled", true);
+      // $("#actualizarInfoButton1").prop("disabled", true);
+      // $("#actualizarPerfilExito").hide();
+      // $(".onlyBD").hide();
+      // $(".hideInUser").hide();
+      // $("#actualizarInfoButton1").hide();
+      // $(".showInCotizar").hide();
   
       
       
@@ -109,6 +150,8 @@ $(window).on('load', function() {
         $(".pageBody").hide();
         $("#pageAnadirAlcancia").show();
         $('#formularioImagenes').show();
+        $("#botonEnviar").prop('disabled', false);
+        $("#botonEnviar").show();
       });
 
       $("#closePreviewButton").click(function(){
@@ -119,6 +162,10 @@ $(window).on('load', function() {
         $('input').val('');
         $('.hideInChange').hide();
         $(".showInCotizar").hide();
+        $('#estadoSelect').val(0);
+        $('#estadoSelectA').val(0);
+        $('#municipioReg').val(0);
+        $('#municipioA').val(0);
         emptyContenidoPedido();
 
 
@@ -166,11 +213,18 @@ $(window).on('load', function() {
       $("#perfilLink").click(function(){
         $(".pageBody").hide();
         $("#perfil").show();
+        if ($("#sesionActual").text() == "No has iniciado sesión") {
+          $("#actualizarInfoButton1").hide();
+        }
+
+        else {
+          $("#actualizarInfoButton1").show();
+        }
+
         $("#nuevosDatos").hide();
         $("#actualizarInfoButton1").prop('disabled', false);
         $("#actualizarInfoButton2").prop('disabled', false);
         $("#actualizarPerfilExito").hide();
-
       });
   
       $("#catalogoLink").click(function(){
@@ -256,6 +310,7 @@ $(window).on('load', function() {
         if (counterPedidos <= 4) {
           $("#excesoPedidosTexto").hide();
           $("#continuarPedidoButton1").show();
+          $("#subtotalText").show();
         }
         
         else {
@@ -329,14 +384,14 @@ $(window).on('load', function() {
           
           counterPedidos -= n;
           subtotal -= costoT;
-          $("#subtotal").text(subtotal);
+          $("#subtotalSpan").text(subtotal);
           actualizarCarrito();
         });
         
         cell4.append(removeButton);
         row.append(cell4);
         $("#carritoTable").append(row);
-        $("#subtotal").text(subtotal);
+        $("#subtotalSpan").text(subtotal);
         $("#carritoVacioText").hide();
 
         actualizarCarrito();
@@ -354,7 +409,7 @@ $(window).on('load', function() {
         subtotal = 0;
 
         actualizarCarrito();
-        $("#subtotal").text(subtotal);
+        $("#subtotalSpan").text(subtotal);
         $("#carritoVacioText").show();
         $("#excesoPedidosTexto").hide();
         $("#vaciarCarritoButton").hide();
@@ -369,7 +424,7 @@ $(window).on('load', function() {
       function fillDatosEnvio() {
         $(".userInfo#estadoEnvio").text( $(".userInfo#estado").text() );
         $(".userInfo#municipioEnvio").text( $(".userInfo#municipio").text() );
-        $(".userInfo#direccionEnvio").text( $(".userInfo#calle").text() + $(".userInfo#numeroExterior").text() );
+        $(".userInfo#direccionEnvio").text( $(".userInfo#calle").text() + " #" + $(".userInfo#numeroExterior").text() );
         $(".userInfo#cpEnvio").text( $(".userInfo#cp").text() );
       }
 
@@ -391,7 +446,6 @@ $(window).on('load', function() {
       }
 
       
-
       function emptyContenidoPedido() {
         var tablasPedido = document.getElementsByClassName('pedidoTable');
 
@@ -400,15 +454,27 @@ $(window).on('load', function() {
       }
       }
 
-      $("#continuarPedidoButton1").click(function(){
+
+    function fillCostoPedidoCon(costoP, costoE) {
+        // Crear las filas y celdas con el contenido deseado
+        var fila1 = $('<tr><td>Costo del pedido</td><td>$' + costoP + ' MXN</td></tr>');
+        var fila2 = $('<tr><td>Costo del envío</td><td>$' + costoE + ' MXN</td></tr>');
+    
+        $('#costosTotalesTableCon').empty();
+        $('#costosTotalesTableCon').append(fila1, fila2);
+        $('#costosTotalesTableCon').show();
+    }
+
+
+     $("#continuarPedidoButton1").click(function(){
         $("#datosEnvio0").hide();
         $("#costoEnvioSin").text("");
         $("#costoEnvioCon").text("");
+        
         //COTIZAR CON SESION INICIADA
         if ($("#sesionActual").text() != "No has iniciado sesión") {
           $("#datosEnvio1C").show();
           fillDatosEnvio();
-          $("#datosEnvio1").show();
 
           var estadoCotizacion = $("#estadoEnvio").text();
     
@@ -417,10 +483,12 @@ $(window).on('load', function() {
                 type: "POST",
                 url: "cotizarConEstado.php",
                 data: {estadoCotizacion: estadoCotizacion},
-                success: function(response){
+                success: function(data){
                     // Actualizar el contenido del div con id 'demo' con la respuesta del servidor
-                    $("#costoEnvioCon").text(response);
+                    $("#costoEnvioCon").text(data.mensaje);
                     fillContenidoPedido();
+                    fillCostoPedidoCon(subtotal, data.precioEnvio);
+                    $('#procederPagoBotton').show();
                 }
             });
 
@@ -431,12 +499,21 @@ $(window).on('load', function() {
         else {
           $("#datosEnvio1S").show();
         }
+      });
 
-      //PASO 2: Mostrar datos completos antes de hacer el pago.
-      $("#datosEnvio1").hide();
+      $("#procederPagoBotton").click(function(){
+        $("#datosEnvio1C").hide();
+        $("#seccionDePago").show();
       });
 
 
+
+
+      //Finalizar compra
+      $('#mercadoPagoCheckbox').change(function () {
+        // Muestra u oculta el botón según el estado del checkbox
+        $('#finalizarCompraButton').toggle(this.checked);
+    });
 });
 
 

@@ -16,7 +16,7 @@ $(document).ready(function() {
           success: function(data) {
             
             $('#mensajeIniciarSesion').show();
-            $('#mensajeIniciarSesion').text(data.mensaje);
+            $('#mensajeIniciarSesion').html(data.mensaje);
 
                 
                 if (data.mensaje == "Has iniciado sesión exitosamente.") {
@@ -60,7 +60,8 @@ $(document).ready(function() {
 
           },
           error: function(error) {
-              console.log(error);
+            $('#mensajeIniciarSesion').show();
+            $('#mensajeIniciarSesion').html(data.mensaje);
           }
       });
   });

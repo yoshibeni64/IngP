@@ -18,7 +18,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 $('#mensajeActualizarPerfil').show();
-                $('#mensajeActualizarPerfil').text(data.mensaje);
+                $('#mensajeActualizarPerfil').html(data.mensaje);
 
                 if (data.mensaje == "La actualización de datos se ha realizado correctamente.") {
 
@@ -28,14 +28,13 @@ $(document).ready(function() {
                     $(".userInfo#calle").text(data.calle);
                     $(".userInfo#numeroExterior").text(data.numeroExterior);
                     $(".userInfo#cp").text(data.cp);
-                    
                     $("#nuevosDatos").hide();
-                    $("#actualizarPerfilExito").show();
                 }
 
             },
             error: function(error) {
-                console.log(error);
+                $('#mensajeActualizarPerfil').show();
+                $('#mensajeActualizarPerfil').html(data.mensaje);
             }
         });
     });

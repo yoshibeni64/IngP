@@ -22,7 +22,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 $('#respuestaRegU2').show();
-                $('#respuestaRegU2').text(data.mensaje);
+                $('#respuestaRegU2').html(data.mensaje);
                 
                 if (data.mensaje.includes("correctamente")) {
                 $("#completarRegButton").prop("disabled", true);
@@ -32,7 +32,8 @@ $(document).ready(function() {
 
             },
             error: function(error) {
-                console.log(error);
+                $('#respuestaRegU2').show();
+                $('#respuestaRegU2').html(data.mensaje);
             }
         });
     });

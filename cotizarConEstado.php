@@ -22,7 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $mensaje = "El costo de envio para el estado de " . $estado . " seria igual a $" . $precioEnvio . " MXN";
 
-    echo json_encode($mensaje);
+    $datos = array(
+        'mensaje' => $mensaje,
+        'precioEnvio' => $precioEnvio // Asegúrate de tener el valor correcto de $precioEnvio
+    );
+    
+    echo json_encode($datos);
+    
     $conn = null;
 }
 ?>

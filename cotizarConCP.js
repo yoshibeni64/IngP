@@ -15,6 +15,16 @@ $(document).ready(function() {
           tablasPedido[i].appendChild(tablaClonada);
         }
       }
+    
+      function fillCostoPedidoSin(costoP, costoE) {
+        // Crear las filas y celdas con el contenido deseado
+        var fila1 = $('<tr><td>Costo del pedido</td><td>$' + costoP + ' MXN</td></tr>');
+        var fila2 = $('<tr><td>Costo del envío</td><td>$' + costoE + ' MXN</td></tr>');
+    
+        $('#costosTotalesTableSin').empty();
+        $('#costosTotalesTableSin').append(fila1, fila2);
+        $('#costosTotalesTableSin').show();
+    }
 
     $("#cpCotizacionButton").click(function(event) {
         // Detener el evento de clic por defecto
@@ -32,10 +42,15 @@ $(document).ready(function() {
             async: true, // Hacer la solicitud asíncrona
             success: function(datos) {
                 // Actualizar el contenido del div con id 'costoEnvioSin' con la respuesta del servidor
-                $("#costoEnvioSin").text(datos.mensaje);
+                $("#mensajeCostoEnvioS").show();
+                $("#mensajeCostoEnvioS").html(datos.mensaje);
 
                 if (datos.hasOwnProperty('precioEnvio')) {
                     fillContenidoPedido();
+
+                    var subtotal = Number($('#subtotalSpan').text());
+                    fillCostoPedidoSin(subtotal,datos.precioEnvio);
+                    //Proceder con el pago
                 }
             }
         });

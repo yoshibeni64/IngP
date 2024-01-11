@@ -15,7 +15,7 @@ if ($stmt->execute()) {
     $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Imprimir los resultados
-    echo '<option value="0">Selecciona un municipio</option>';
+    echo '<option value="0" selected>Selecciona un municipio</option>';
     foreach ($resultados as $row) {
         echo '<option value="' . $row['nombreMunicipio'] . '">' . $row['nombreMunicipio'] . '</option>';
     }
@@ -23,4 +23,6 @@ if ($stmt->execute()) {
     // Manejar errores si la consulta no se ejecuta correctamente
     echo "Error en la consulta: " . $stmt->errorInfo()[2];
 }
+
+$conn = null;
 ?>

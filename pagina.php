@@ -80,7 +80,7 @@
     </table>
 
     </form>
-    <p id="mensajeRegistrarUsuario" class="hideInChange"></p>
+    <p id="mensajeRegistrarUsuario" class="mensaje hideInChange"></p>
 </div> 
 
 
@@ -138,30 +138,6 @@
         <td>
         <select id = "municipioReg" name="municipioReg">
         <option value="0">Selecciona un municipio</option>
-        <script>
-            
-            $(document).ready(function() {
-                // Manejador de eventos para el cambio en el select
-                $('#estadoSelect').change(function() {
-                    // Obtener el valor seleccionado
-                    var valorSeleccionado = $(this).val();
-
-                    // Realizar la solicitud AJAX para ejecutar el script PHP
-                    $.ajax({
-                        type: 'POST',
-                        url: 'script2.php',
-                        data: {opcion: valorSeleccionado},
-                        success: function(response) {
-                            // Actualizar el contenido en el resultadoPHP con la respuesta del PHP
-                            $('#municipioReg').html(response);
-                        },
-                        error: function(error) {
-                            console.log(error);
-                        }
-                    });
-                });
-            });
-        </script>
         </select></td>
 
         </tr>
@@ -182,7 +158,7 @@
         </tr>
         </table>
         
-        <p id="respuestaRegU2" class="hideInChange"></p>
+        <p id="respuestaRegU2" class="mensaje hideInChange"></p>
     </form>
     
 </div>
@@ -215,7 +191,7 @@
       <td colspan="2"><button type="submit" id="buttonIniciar">Iniciar Sesión</button></td>
     </tr>
   </table>
-  <div id="mensajeIniciarSesion" class="hideInChange"></div>
+  <div id="mensajeIniciarSesion" class="mensaje hideInChange"></div>
 </form>
 
 
@@ -255,9 +231,8 @@
         <td><span class="userInfo" id="cp"></span></td>
     </tr>
     </table>
-    <p><button id="actualizarInfoButton1">Actualizar información de perfil</button></p>
-    <p id="actualizarPerfilExito">Se han actualizado correctamente los datos de tu perfil.</p>
-    <div id="nuevosDatos">
+    <p><button id="actualizarInfoButton1" class="hideInStart">Actualizar información de perfil</button></p>
+    <div id="nuevosDatos" class="hideInStart">
 
 
     <form id="formActualizarPerfil" action="actualizarPerfil.php" method="post">
@@ -326,30 +301,6 @@
       <td>
       <select id = "municipioA" name="municipioA">
       <option value="0">Selecciona un municipio</option>
-      <script>
-          
-          $(document).ready(function() {
-              // Manejador de eventos para el cambio en el select
-              $('#estadoSelectA').change(function() {
-                  // Obtener el valor seleccionado
-                  var valorSeleccionado = $(this).val();
-
-                  // Realizar la solicitud AJAX para ejecutar el script PHP
-                  $.ajax({
-                      type: 'POST',
-                      url: 'script2.php',
-                      data: {opcion: valorSeleccionado},
-                      success: function(response) {
-                          // Actualizar el contenido en el resultadoPHP con la respuesta del PHP
-                          $('#municipioA').html(response);
-                      },
-                      error: function(error) {
-                          console.log(error);
-                      }
-                  });
-              });
-          });
-      </script>
       </select></td>
 
       </tr>
@@ -371,11 +322,11 @@
 
         
     </table>
-  <div id="mensajeActualizarPerfil" class="hideInChange"></div>
     </form>
-
-
     </div>
+
+  <div id="mensajeActualizarPerfil" class="mensaje hideInChange"></div>
+    
     
 
 
@@ -397,13 +348,13 @@
     <button id = "buttonCatalogoA">Avión</button>
     <br>
     
-    <button id="addAlcanciaButton" class="hideInUser">
+    <button id="addAlcanciaButton" class="hideInUser hideInStart">
             <p>+<br> Añadir alcancia</p>
     </button>
     <br>
   
     <h3>Selecciona el diseño que desees consultar:</h3>
-    <h3 id = "removeCatalogoText">Selecciona el diseño que desees eliminar:</h3>
+    <h3 id = "removeCatalogoText" class="hideInStart">Selecciona el diseño que desees eliminar:</h3>
     <h2 id = "mensajeCatalogoVacio"></h2>
     
     
@@ -514,14 +465,14 @@
             
             <tr id="centrarBoton">
                 <td colspan="2">
-                    <button id="botonEnviar" type="submit">Enviar</button>
+                    <button id="botonEnviar" class="hideInChange" type="submit">Enviar</button>
                 </td> 
             </tr>
         </table>
     </form>
     
 
-    <div id="mensajeSubirAlcancia" class="hideInChange"></div>
+    <div id="mensajeSubirAlcancia" class="mensaje hideInChange"></div>
 
     <script>
         function mostrarVistaPrevia(inputId, vistaPreviaId) {
@@ -547,6 +498,7 @@
     $(document).ready(function () {
     $('#botonEnviar').click(function () {
         var formData = new FormData($('#formularioImagenes')[0]);
+        event.preventDefault();
 
         // Realizar la solicitud AJAX con jQuery
         $.ajax({
@@ -557,7 +509,14 @@
             contentType: false,
             processData: false,
             success: function (data) {
-                $('#mensajeSubirAlcancia').text(data.mensaje);
+                $('#mensajeSubirAlcancia').show();
+                $('#mensajeSubirAlcancia').html(data.mensaje);
+
+                if(data.mensaje.includes("subidas")) {
+                    $("#botonEnviar").prop('disabled', true);
+                    $("#botonEnviar").hide();
+                }
+                
             },
             error: function (error) {
                 console.error('Error:', error);
@@ -577,11 +536,9 @@
 <!-- Carrito de compras -->
 
 <div class="pageBody" id="carritoPage">
-    
-    
     <div id="datosEnvio0">
     <h2>Tu carrito de compras</h2>
-    <!-- Carrito con articulos -->
+    <!-- 1. Carrito con articulos -->
     <table id = "carritoTable">
         <tr>
             <th>Vista previa</th>
@@ -593,30 +550,39 @@
     
     <!-- Carrito vacio -->
     <p id = "carritoVacioText">Tu carrito está vacío. Consulta el catálogo para comenzar a llenar tu pedido.</p>
-    <p id = "subtotalText">Costo del contenido del pedido (Subtotal): $<span id="subtotal">0</span> MXN</p>
-    <p><button id="vaciarCarritoButton">Vaciar carrito de compras</button></p>
+    <p id = "subtotalText" class="hideInStart">Costo del contenido del pedido (Subtotal): $<span id="subtotalSpan">0</span> MXN</p>
+    <p><button id="vaciarCarritoButton" class="hideInStart">Vaciar carrito de compras</button></p>
     <!-- Error de exceso de alcancias -->
-    <p id = "excesoPedidosTexto">Error: No se podrá concretar la compra porque el número límite máximo de alcancías por pedido es de 4.</p>
-    <p><button id="continuarPedidoButton1">Continuar</button></p>
+    <p id = "excesoPedidosTexto" class="mensaje hideInStart">ERROR: No se podrá concretar la compra porque el número límite máximo de alcancías por pedido es de 4.</p>
+    <p><button id="continuarPedidoButton1" class="hideInStart">Continuar</button></p>
     </div>
 
-    <div id="datosEnvio1S" class="hideInChange">
+    <!-- 2.1 Cotización sin sesión iniciada -->
+    <div id="datosEnvio1S" class="pageBody hideInChange hideInStart">
     <p>Para continuar con la compra debes iniciar sesión, o bien puedes registrar tu Código Postal para cotizar el pedido</p>
     <form id="formCotizarconCP" action="cotizarConCP.php" method="post">
     <input id="cpCotizacion" name="cpCotizacion" type="number" minlength="5" maxlength="5" required>
     <button type="submit" id="cpCotizacionButton">Cotiza tu pedido</button>
     </form>
     <h2>Contenido del pedido</h2>
-    <table class = "pedidoTable"></table>
-    <p class="userInfo pageChanger" id="costoEnvioSin"></p>
-    
+    <table id = "pedidoTableS" class = "pedidoTable">
+    </table>
+    <p class="userInfo hideInChange mensaje" id="mensajeCostoEnvioS"></p>
+    <br>
+    <table id="costosTotalesTableSin" class="hideInChange"></table>
     </div>
     
 
-    <!-- Cotización con sesión iniciada -->
-    <div id="datosEnvio1C" class="hideInChange">
+    <!-- 2.2 Cotización con sesión iniciada -->
+    <div id="datosEnvio1C" class="pageBody hideInChange hideInStart">
+        <h2>Contenido de tu pedido</h2>
+        <table id = "pedidoTableC" class = "pedidoTable"></table>
+        <br>
+        
         <h2>Tus datos de envio</h2>
-        <p>Verifica que los datos de envío y del pedido son correctos. </br>Si deseas cambiar algún dato de la dirección de envío puedes realizarlo en la sección de perfil.</p>
+        <p>Verifica que los datos de envío y del pedido son correctos. <br>
+        Si deseas cambiar algún dato de la dirección de envío puedes realizarlo en la sección de perfil.</p>
+
         <table>
         <tr>
     	    <td>Estado de la República donde resides:</td>
@@ -639,15 +605,24 @@
             <td><span class="userInfo pageChanger" id="costoEnvioCon"></span></td>
         </tr>
         </table>
-        <h2>Contenido del pedido</h2>
-        <table class = "pedidoTable"></table>
+        <br>
+        
+        <table id="costosTotalesTableCon" class="hideInChange">
+        </table>
+
+        <button id='procederPagoBotton' class="hideInChange">Proceder con el pago</button>
     </div>
 
+        
 
-    <!-- Datos del pedido -->
-    <div id="datosEnvio2" class="hideInChange">
-        <h2>Confirma tu pedido</h2>
-        <table class = "pedidoTable"></table>
+    <div id="seccionDePago" class="pageBody hideInChange">
+        <h2>Para finalizar, ingresa a tu cuenta de Mercado Pago con la que realizarás el pago.</h2>
+        <label>
+        <input type="checkbox" id="mercadoPagoCheckbox">
+        He ingresado los datos de Mercado Pago
+        </label>
+        <br>
+        <button id="finalizarCompraButton" class="pageBody hideInChange">Finaizar compra</button>
     </div>
 
 
@@ -663,8 +638,7 @@
     <span><p>ID del pedido: 
         <input></input></p>
         <p><button>Buscar pedido</button></p>
-        <p>El pedido ha sido encontrado.</p>
-        <p>El pedido no existe, favor de corregir en intentar nuevamente.</p>
+        <p id = "mensajeBuscarPedido" class="mensaje hideInChange"></p>
         <p>Por favor describa el problema encontrado en su producto.</p>
         <p><textarea id = "quejaText" rows="20" cols="150"></textarea></p>
         <p>Evidencia fotográfica del problema (máximo 10): <button>Añadir archivos PNG o JPEG</button></p>

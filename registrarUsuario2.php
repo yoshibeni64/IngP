@@ -3,6 +3,7 @@ require_once('conexion.php');
 
 // Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $mensaje = "";
 
     $correoReg = $_POST["correoR"];
     $contrasenaReg = $_POST["passwordR"];
@@ -15,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $error = 0;
 
     if ($estado == 0 || $municipio == 0 || $calle == "" || $numeroExterior == "" || $codigoPostal == "" || $numeroExterior == "") {
-        $mensaje = "ERROR. Favor de no dejar casillas en blanco. Corrija e intente nuevamente.";
+        $mensaje .= "ERROR: Favor de no dejar casillas en blanco. Corrija e intente nuevamente.<br>";
         $error = 1;
     } 
     if (strlen($codigoPostal) != 5) {
-        $mensaje = "ERROR. Procura que el Codigo Postal cuente con 5 digitos exactos.";
+        $mensaje .= "ERROR: Procura que el Codigo Postal cuente con 5 digitos exactos.<br>";
         $error = 1;
     } 
     

@@ -89,8 +89,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     echo json_encode($datos);
-    $conn = null;
+    
 }
+
+else {
+    // Manejar el caso en el que el formulario no se ha enviado correctamente
+    $mensaje = "El formulario no se ha enviado correctamente.";
+    $datos = array("mensaje" => $mensaje);
+    echo json_encode($datos);
+}
+
+$conn = null;
 
 ?>
 
