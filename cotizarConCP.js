@@ -20,9 +20,10 @@ $(document).ready(function() {
         // Crear las filas y celdas con el contenido deseado
         var fila1 = $('<tr><td>Costo del pedido</td><td>$' + costoP + ' MXN</td></tr>');
         var fila2 = $('<tr><td>Costo del envío</td><td>$' + costoE + ' MXN</td></tr>');
+        var fila3 = $('<tr><td>TOTAL</td><td>$' + (costoP + costoE) + ' MXN</td></tr>');
     
         $('#costosTotalesTableSin').empty();
-        $('#costosTotalesTableSin').append(fila1, fila2);
+        $('#costosTotalesTableSin').append(fila1, fila2, fila3);
         $('#costosTotalesTableSin').show();
     }
 
@@ -32,12 +33,13 @@ $(document).ready(function() {
 
         // Obtener el valor del código postal del input
         var cpCotizacion = $("#cpCotizacion").val();
+        var nUnidades = Number($('#nUnidadesSpan').text());
 
         // Realizar la solicitud Ajax
         $.ajax({
             type: "POST",
             url: "cotizarConCP.php",
-            data: { cpCotizacion: cpCotizacion },
+            data: { cpCotizacion: cpCotizacion, nUnidades: nUnidades },
             dataType: 'json',
             async: true, // Hacer la solicitud asíncrona
             success: function(datos) {
@@ -46,11 +48,14 @@ $(document).ready(function() {
                 $("#mensajeCostoEnvioS").html(datos.mensaje);
 
                 if (datos.hasOwnProperty('precioEnvio')) {
+                   $("#datosEnvio1STablas").show();
                     fillContenidoPedido();
 
                     var subtotal = Number($('#subtotalSpan').text());
-                    fillCostoPedidoSin(subtotal,datos.precioEnvio);
-                    //Proceder con el pago
+                    var precioEnvio = Number(datos.precioEnvio);
+                    fillCostoPedidoSin(subtotal,precioEnvio);
+                  
+                    $("#fechaEstimadaEntregaS").text(datos.nuevaFechaEstimadaEntrega);
                 }
             }
         });

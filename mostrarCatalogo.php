@@ -51,8 +51,14 @@ $stmt->execute([$subcarpeta]);
 $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $disenosBD = array_column($row, 'diseno');
 
+$query = "SELECT idAlcancia FROM cat_alc WHERE modelo = ?";
+$stmt = $conn->prepare($query);
+$stmt->execute([$subcarpeta]);
+$row = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$idsArray = array_column($row, 'idAlcancia');
+
 $conn = null;
 
-echo json_encode(array('imagenesPrev' => $imagenesPrev, 'imagenesFull' => $imagenesFull, 'precio' => $precio, 'disenosCatalogo' => $disenosCatalogo, 'disenosBD' => $disenosBD, 'mensaje' => $mensaje));
+echo json_encode(array('imagenesPrev' => $imagenesPrev, 'imagenesFull' => $imagenesFull, 'precio' => $precio, 'disenosCatalogo' => $disenosCatalogo, 'disenosBD' => $disenosBD, 'mensaje' => $mensaje, "idsArray" => $idsArray));
 ?>
 

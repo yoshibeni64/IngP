@@ -16,7 +16,8 @@ function obtenerImagenes(contenedorID, subcarpeta) {
                 // Obtener el nombre de la imagen desde la ruta y quitar la extensión
                 var diseño = imagePath.split('/').pop().split('.')[0]; // Obtener el nombre sin extensión
 
-                    var imagePathFull = imagePath.replace("Prev", "Full");
+                    var imagePathFull = data.imagenesFull[index];
+                    var idAlcancia = data.idsArray[index];
 
                     if (data.disenosCatalogo.includes(diseño)) {
                         alcanciaStatus = "inCatalogo";
@@ -26,7 +27,7 @@ function obtenerImagenes(contenedorID, subcarpeta) {
                         alcanciaStatus = "onlyBD";
                     }
                     
-                    alcanciaCont = $('<div class="alcanciaCont ' + alcanciaStatus + '"></div>');
+                    var alcanciaCont = $('<div class="alcanciaCont ' + alcanciaStatus + '"></div>');
                 
                     alcanciaCont.on('click', function() {
                         $("#previewAlcancia").show();
@@ -34,6 +35,7 @@ function obtenerImagenes(contenedorID, subcarpeta) {
                         
                         $("#pic1").attr("src", imagePath);
                         $('#pic1').attr("class", subcarpeta);
+                        $('#pic1').attr("name", idAlcancia);
                         $('#pic1').attr("alt", diseño);
                         $("#pic2").attr("src", imagePathFull);
                         $('#pic2').attr("class", subcarpeta);

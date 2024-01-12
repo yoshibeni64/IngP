@@ -231,7 +231,7 @@
         <td><span class="userInfo" id="cp"></span></td>
     </tr>
     </table>
-    <p><button id="actualizarInfoButton1" class="hideInStart">Actualizar información de perfil</button></p>
+    <p><button id="actualizarInfoButton1" class="hideInStart">Actualizar información de Perfil</button></p>
     <div id="nuevosDatos" class="hideInStart">
 
 
@@ -550,7 +550,8 @@
     
     <!-- Carrito vacio -->
     <p id = "carritoVacioText">Tu carrito está vacío. Consulta el catálogo para comenzar a llenar tu pedido.</p>
-    <p id = "subtotalText" class="hideInStart">Costo del contenido del pedido (Subtotal): $<span id="subtotalSpan">0</span> MXN</p>
+    <p id = "nUnidadesText" class="hideInStart">Costo del contenido del pedido (Subtotal): $<span id="subtotalSpan">0</span> MXN</p>
+    <p id = "subtotalText" class="hideInStart">Número de unidades en el pedido: <span id="nUnidadesSpan">0</span></p>
     <p><button id="vaciarCarritoButton" class="hideInStart">Vaciar carrito de compras</button></p>
     <!-- Error de exceso de alcancias -->
     <p id = "excesoPedidosTexto" class="mensaje hideInStart">ERROR: No se podrá concretar la compra porque el número límite máximo de alcancías por pedido es de 4.</p>
@@ -559,17 +560,30 @@
 
     <!-- 2.1 Cotización sin sesión iniciada -->
     <div id="datosEnvio1S" class="pageBody hideInChange hideInStart">
-    <p>Para continuar con la compra debes iniciar sesión, o bien puedes registrar tu Código Postal para cotizar el pedido</p>
+    <h2>Para continuar con la compra debes iniciar sesión, o bien puedes registrar tu Código Postal para cotizar el pedido</h2>
     <form id="formCotizarconCP" action="cotizarConCP.php" method="post">
     <input id="cpCotizacion" name="cpCotizacion" type="number" minlength="5" maxlength="5" required>
     <button type="submit" id="cpCotizacionButton">Cotiza tu pedido</button>
     </form>
-    <h2>Contenido del pedido</h2>
-    <table id = "pedidoTableS" class = "pedidoTable">
-    </table>
-    <p class="userInfo hideInChange mensaje" id="mensajeCostoEnvioS"></p>
-    <br>
-    <table id="costosTotalesTableSin" class="hideInChange"></table>
+        <div id="datosEnvio1STablas" class="hideInChange">
+            <h2>Contenido del pedido</h2>
+            <table id = "pedidoTableS" class = "pedidoTable">
+            </table>
+
+            <p>Los datos de fecha de entrega de su pedido serían los siguientes:</p>
+                <table>
+                <tr>
+                    <td>Fecha estimada de entrega del pedido:</td>
+                    <td><span class="userInfo" id="fechaEstimadaEntregaS"></span></td>
+                </tr>
+            </table>
+            <p>La fecha estimada de entrega es la fecha más tarde en la que recibiría su pedido. La fecha real de entrega le llegaría a su correo electrónico<br>
+                cuando su pedido este listo.</p>
+
+            <p class="userInfo hideInChange mensaje" id="mensajeCostoEnvioS"></p>
+            <br>
+            <table id="costosTotalesTableSin" class="hideInChange"></table>
+        </div>
     </div>
     
 
@@ -577,13 +591,15 @@
     <div id="datosEnvio1C" class="pageBody hideInChange hideInStart">
         <h2>Contenido de tu pedido</h2>
         <table id = "pedidoTableC" class = "pedidoTable"></table>
+        
+        <p class="userInfo hideInChange mensaje" id="mensajeCostoEnvioC"></p>
         <br>
         
         <h2>Tus datos de envio</h2>
         <p>Verifica que los datos de envío y del pedido son correctos. <br>
         Si deseas cambiar algún dato de la dirección de envío puedes realizarlo en la sección de perfil.</p>
 
-        <table>
+        <table id="datosEnvioTable">
         <tr>
     	    <td>Estado de la República donde resides:</td>
             <td><span class="userInfo" id="estadoEnvio"></span></td>
@@ -600,13 +616,22 @@
             <td>Código Postal:</td>
             <td><span class="userInfo" id="cpEnvio"></span></td>
         </tr>
+        </table>
+        
+        <p>Los datos de fecha de entrega de su pedido serían los siguientes:</p>
+        <table id="datosFechaTable">
         <tr>
-            <td>Costo de envío:</td>
-            <td><span class="userInfo pageChanger" id="costoEnvioCon"></span></td>
+            <td>Fecha estimada de entrega del pedido:</td>
+            <td><span class="userInfo" id="fechaEstimadaEntregaC"></span></td>
         </tr>
         </table>
+        <p>La fecha estimada de entrega es la fecha más tarde en la que recibiría su pedido. La fecha real de entrega le llegaría a su correo electrónico<br>
+    cuando su pedido este listo.</p>
         <br>
-        
+
+
+
+        <h2>Costos finales</h2>
         <table id="costosTotalesTableCon" class="hideInChange">
         </table>
 
@@ -622,13 +647,25 @@
         He ingresado los datos de Mercado Pago
         </label>
         <br>
-        <button id="finalizarCompraButton" class="pageBody hideInChange">Finaizar compra</button>
+        <button id="finalizarCompraButton" class="pageBody hideInChange">Finalizar compra</button>
     </div>
-
-
-
-
 </div>
+
+<div id="ordenPedido" class="pageBody hideInChange">
+        <h2>Compra finalizada</h2>
+        <p>Muchas gracias por comprar con nosotros. Esta es la información de su orden:</p>
+        <table>
+            <tr>
+                <td>ID de tu pedido:</td>
+                <td id="idPedido"></td>
+            </tr>
+        </table>
+        <div id="ordenTable">
+        </div>
+        <br>
+        <p>En su correo electrónico le haremos llegar la guía de su pedido para que pueda estar al pendiente de este para recogerlo</p>
+        <p>Recomendamos tomarle captura por si requiere realizar alguna queja cuando reciba su pedido.</p>
+    </div>
 
 <div class="pageBody" id="buzon">
     <h2>Buzón de quejas</h2>

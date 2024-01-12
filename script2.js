@@ -1,5 +1,7 @@
 $(window).on('load', function() {
 
+  var nuevaFechaEstimadaEntrega, precioEnvio;
+
   $('#correoR, #passwordR, #passwordConfR, #correoI, #passwordI, #correoA, #passwordA, #passwordConfA, #nuevoDiseno, #regUcp, #cpA, #regUcalle, #calleA, #regUnumExt, #numExtA, #cpCotizacion').on('input', function() {
     // Obtiene la longitud actual del valor del input
     var longitudActual = $(this).val().length;
@@ -282,6 +284,12 @@ $('#estadoSelectA').change(function() {
         }
       }
       
+
+      var counterPedidos = 0;
+      var subtotal = 0;
+
+      var arrayIDAlcancias = [];
+      var arrayCantidadAlcancias = [];
       
 
       function newCarrito() {
@@ -300,10 +308,6 @@ $('#estadoSelectA').change(function() {
       }
 
 
-      var counterPedidos = 0;
-      var subtotal = 0;
-
-
       function actualizarCarrito() {
         
         
@@ -311,6 +315,7 @@ $('#estadoSelectA').change(function() {
           $("#excesoPedidosTexto").hide();
           $("#continuarPedidoButton1").show();
           $("#subtotalText").show();
+          $("#nUnidadesText").show();
         }
         
         else {
@@ -333,6 +338,7 @@ $('#estadoSelectA').change(function() {
           $("#continuarPedidoButton1").hide();
           $("#vaciarCarritoButton").hide();
           $("#subtotalText").hide();
+          $("#nUnidadesText").hide();
           $("#continuarPedidoButton1").hide();
         }
       }
@@ -346,7 +352,6 @@ $('#estadoSelectA').change(function() {
       $("#agregarAlCarritoButton").click(function(){
         let n = Number($("#nAlcanciasAgregar").val());
         counterPedidos += n;
-
         let u = Number($('#picPrecio').text());
         let costoT = n*u;
 
@@ -356,6 +361,13 @@ $('#estadoSelectA').change(function() {
         let cell1 = document.createElement("td");
         let img = document.createElement("img");
         img.src = $('#pic1').attr('src');
+        
+        let nameValue = $('#pic1').attr('name');
+        let className = nameValue + "/" + n;
+        img.classList.add(className);
+        
+        
+        
         cell1.append(img);
         row.append(cell1);
   
@@ -385,6 +397,7 @@ $('#estadoSelectA').change(function() {
           counterPedidos -= n;
           subtotal -= costoT;
           $("#subtotalSpan").text(subtotal);
+          $("#nUnidadesSpan").text(counterPedidos);
           actualizarCarrito();
         });
         
@@ -392,6 +405,7 @@ $('#estadoSelectA').change(function() {
         row.append(cell4);
         $("#carritoTable").append(row);
         $("#subtotalSpan").text(subtotal);
+        $("#nUnidadesSpan").text(counterPedidos);
         $("#carritoVacioText").hide();
 
         actualizarCarrito();
@@ -410,12 +424,14 @@ $('#estadoSelectA').change(function() {
 
         actualizarCarrito();
         $("#subtotalSpan").text(subtotal);
+        $("#nUnidadesSpan").text(counterPedidos);
         $("#carritoVacioText").show();
         $("#excesoPedidosTexto").hide();
         $("#vaciarCarritoButton").hide();
         $("#continuarPedidoButton1").hide();
         $("#datosEnvio1").hide();
         $("#subtotalText").hide();
+        $("#nUnidadesText").show();
         
       });
 
@@ -459,9 +475,10 @@ $('#estadoSelectA').change(function() {
         // Crear las filas y celdas con el contenido deseado
         var fila1 = $('<tr><td>Costo del pedido</td><td>$' + costoP + ' MXN</td></tr>');
         var fila2 = $('<tr><td>Costo del envío</td><td>$' + costoE + ' MXN</td></tr>');
+        var fila3 = $('<tr><td>TOTAL</td><td>$' + (costoP + costoE) + ' MXN</td></tr>');
     
         $('#costosTotalesTableCon').empty();
-        $('#costosTotalesTableCon').append(fila1, fila2);
+        $('#costosTotalesTableCon').append(fila1, fila2, fila3);
         $('#costosTotalesTableCon').show();
     }
 
@@ -473,25 +490,34 @@ $('#estadoSelectA').change(function() {
         
         //COTIZAR CON SESION INICIADA
         if ($("#sesionActual").text() != "No has iniciado sesión") {
+
+          //1. Mostrar el div de datosEnvio1C
           $("#datosEnvio1C").show();
           fillDatosEnvio();
 
           var estadoCotizacion = $("#estadoEnvio").text();
+          var nUnidades = Number($('#nUnidadesSpan').text());
     
-            // Realizar la solicitud Ajax
             $.ajax({
-                type: "POST",
-                url: "cotizarConEstado.php",
-                data: {estadoCotizacion: estadoCotizacion},
-                success: function(data){
-                    // Actualizar el contenido del div con id 'demo' con la respuesta del servidor
-                    $("#costoEnvioCon").text(data.mensaje);
-                    fillContenidoPedido();
-                    fillCostoPedidoCon(subtotal, data.precioEnvio);
-                    $('#procederPagoBotton').show();
-                }
-            });
+              type: "POST",
+              url: "cotizarConEstado.php",
+              data: { estadoCotizacion: estadoCotizacion, nUnidades: nUnidades },
+              dataType: 'json',
+              async: true, // Hacer la solicitud asíncrona
+              success: function(data) {
+                  $("#mensajeCostoEnvioC").show();
+                  $("#mensajeCostoEnvioC").html(data.mensaje);
+                  fillContenidoPedido();
 
+                  var subtotal = Number($('#subtotalSpan').text());
+                  precioEnvio = Number(data.precioEnvio);
+                  fillCostoPedidoCon(subtotal,precioEnvio);
+                  nuevaFechaEstimadaEntrega = data.nuevaFechaEstimadaEntrega;
+
+                  $("#fechaEstimadaEntregaC").text(data.nuevaFechaEstimadaEntrega);
+                  $("#procederPagoBotton").show();
+                  }
+              });
         }
         
 
@@ -502,7 +528,6 @@ $('#estadoSelectA').change(function() {
       });
 
       $("#procederPagoBotton").click(function(){
-        $("#datosEnvio1C").hide();
         $("#seccionDePago").show();
       });
 
@@ -514,6 +539,81 @@ $('#estadoSelectA').change(function() {
         // Muestra u oculta el botón según el estado del checkbox
         $('#finalizarCompraButton').toggle(this.checked);
     });
+
+    function mostrarOrden() {
+
+        // Clonar las tablas
+        var tablaFecha = $('#datosFechaTable').clone();
+        var tablaCostos = $('#costosTotalesTableCon').clone();
+        var tablaEnvio = $('#datosEnvioTable').clone();
+
+        $('#ordenTable').empty();
+        $('#ordenTable').append(tablaEnvio, tablaCostos, tablaFecha);
+    }
+  
+
+  $('#finalizarCompraButton').on('click', function() {
+    var clasesImagenes = $('#pedidoTableC img').map(function() {
+      return $(this).attr('class');
+  }).get();
+  
+  // Inicializar los arreglos
+  var arrayIds = [];
+  var arrayUnidades = [];
+  
+  // Iterar sobre las clases y dividirlas en arrayIds y arrayUnidades
+  clasesImagenes.forEach(function(clase) {
+      var partes = clase.split('/');
+      if (partes.length === 2) {
+          arrayIds.push(partes[0]);
+          arrayUnidades.push(partes[1]);
+      }
+  });
+
+  //DATOS PARA EL PHP
+  var correo = $('#correoAblocked').text().trim();
+  var costoContenido = Number($('#subtotalSpan').text());
+  var costoEnvio = precioEnvio;
+
+
+  $.ajax({
+    type: "POST", // Método de solicitud
+    url: "registrarPedido.php", // URL del script PHP
+    data: {
+      arrayIds: arrayIds,
+      arrayUnidades: arrayUnidades,
+      nuevaFechaEstimadaEntrega: nuevaFechaEstimadaEntrega,
+      costoContenido: costoContenido,
+      costoEnvio: costoEnvio,
+      correo: correo
+    },
+
+    success: function(data) {
+      $("#idPedido").text(data);
+  },
+    error: function(error) {
+        // Manejar errores de la solicitud AJAX
+        console.log("Error:", error);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+    $(".pageBody").hide();
+    $('#ordenPedido').show();
+    mostrarOrden();
+    
+});
+
+
 });
 
 
