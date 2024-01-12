@@ -42,7 +42,6 @@
 
 <!-- Página principal -->
 <div class="pageBody" id="principal">
-    <p>Hola</p>
     <h2>Bienvenido a Arte Riveralo!</h2>
     <h3>Somos una empresa mexicana dedicada a la creación de alcancías de cerámica personalizadas de tus personajes favoritos. 
         En está página podrás realizar pedidos de hasta 4 alcancías para que puedan ser enviados por el servicio de paquetería DHL
@@ -672,14 +671,22 @@
     <p>Si deseas reportar problemas en el recibo de un pedido, favor de escribir la ID del pedido y describir
         el problema. Es necesario que adjunta evidencia fotográfica para validar su solicitud.
     </p>
-    <span><p>ID del pedido: 
-        <input></input></p>
-        <p><button>Buscar pedido</button></p>
+        <div id = "buzon1">
+        <label for="buscarPedidoID">Buscar Pedido ID:</label>
+        <input type="number" id="buscarPedidoID" name="buscarPedidoID" maxlength="10">
+        <p><button type="submit" id="buscarPedidoButton">Buscar pedido</button></p>
+        </div>
         <p id = "mensajeBuscarPedido" class="mensaje hideInChange"></p>
-        <p>Por favor describa el problema encontrado en su producto.</p>
-        <p><textarea id = "quejaText" rows="20" cols="150"></textarea></p>
-        <p>Evidencia fotográfica del problema (máximo 10): <button>Añadir archivos PNG o JPEG</button></p>
-        <p><button>Enviar queja</button></p>
+        <div id="quejaContenido" class="hideInChange">
+            <p>Por favor describa el problema encontrado en su producto.</p>
+            <form action="mailto:riveraloarte51@gmail.com" method="post" enctype="multipart/form-data">
+                <label for="queja">Ingrese su queja:</label><br>
+                <textarea id="queja" name="queja" rows="20" cols="100" maxlength="500"></textarea>
+
+                <button type="submit">Enviar queja</button>
+            </form>
+
+        </div>
     </span>
 </div>
 

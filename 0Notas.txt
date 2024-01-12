@@ -1,0 +1,8 @@
+Notas:
+-Si se accede con "adminRiveralo64@gmail.com" y "passwordRiveralo" se entrará al modo administrador
+-Si se accede con "adminRiveralo65@gmail.com" y "ASDASDASD" no se entrará al modo administrador
+-Todos los usuarios creados serán usuarios comunes sin privilegios de administrador
+-Ejecutar la página en Brave puede causar problemas, recomendamos usar Edge
+-Las alcancias que puede probar para subir están en el drive https://drive.google.com/drive/folders/1ujqy7JYExCmRH1HnNguS4j_GR11buDlX?usp=drive_link
+-La fecha de Entrega estimada cuenta desde el 4 de febrero de 2024, a partir de ahí cada 200 pedidos suma 7 días
+

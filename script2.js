@@ -2,7 +2,7 @@ $(window).on('load', function() {
 
   var nuevaFechaEstimadaEntrega, precioEnvio;
 
-  $('#correoR, #passwordR, #passwordConfR, #correoI, #passwordI, #correoA, #passwordA, #passwordConfA, #nuevoDiseno, #regUcp, #cpA, #regUcalle, #calleA, #regUnumExt, #numExtA, #cpCotizacion').on('input', function() {
+  $('#correoR, #passwordR, #passwordConfR, #correoI, #passwordI, #correoA, #passwordA, #passwordConfA, #nuevoDiseno, #regUcp, #cpA, #regUcalle, #calleA, #regUnumExt, #numExtA, #cpCotizacion, #buscarPedidoID, #queja').on('input', function() {
     // Obtiene la longitud actual del valor del input
     var longitudActual = $(this).val().length;
 
@@ -139,8 +139,7 @@ $('#estadoSelectA').change(function() {
       // $(".showInCotizar").hide();
   
       
-      
-      
+     
       $("#actualizarInfoButton1").click(function(){
           $("#actualizarInfoButton1").prop("disabled", true);
           $("#actualizarInfoButton1").hide();
@@ -168,6 +167,7 @@ $('#estadoSelectA').change(function() {
         $('#estadoSelectA').val(0);
         $('#municipioReg').val(0);
         $('#municipioA').val(0);
+        $('#queja').val('');
         emptyContenidoPedido();
 
 
@@ -243,6 +243,7 @@ $('#estadoSelectA').change(function() {
       $("#buzonLink").click(function(){
         $(".pageBody").hide();
         $("#buzon").show();
+        $("#buzon1").show();
       });
   
       $("#registroULink").click(function(){
@@ -597,21 +598,42 @@ $('#estadoSelectA').change(function() {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
     $(".pageBody").hide();
     $('#ordenPedido').show();
     mostrarOrden();
     
 });
+
+$("#buscarPedidoButton").click(function(){
+  
+  var buscarPedidoID = $("#buscarPedidoID").val();
+  event.preventDefault();
+  $.ajax({
+    type: "POST", // Método de solicitud
+    url: "buscarPedido.php", // URL del script PHP
+    data: {
+      buscarPedidoID: buscarPedidoID
+    },
+
+    success: function(data) {
+      $("#mensajeBuscarPedido").show();
+      $("#mensajeBuscarPedido").text(data);
+
+      if (data.includes("continuar")) {
+        $("#quejaContenido").show();
+        $("#buzon1").hide();
+      }
+      
+  },
+
+    error: function(error) {
+        // Manejar errores de la solicitud AJAX
+        console.log("Error:", error);
+    }
+  });
+
+});
+
 
 
 });

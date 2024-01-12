@@ -1,3 +1,0 @@
-Notas:
-Si se accede con "adminRiveralo64@gmail.com" y "passwordRiveralo" se entrará al modo administrador
-Si se accede con "adminRiveralo65@gmail.com" y "passwordRiveralo2" no se entrará al modo administrador
